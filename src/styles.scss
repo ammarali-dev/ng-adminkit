@@ -1,0 +1,65 @@
+// Variables
+@import "scss/1-variables/app";
+
+// Bootstrap
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/utilities";
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+@import "../node_modules/bootstrap/scss/images";
+@import "../node_modules/bootstrap/scss/containers";
+@import "../node_modules/bootstrap/scss/grid";
+@import "../node_modules/bootstrap/scss/tables";
+@import "../node_modules/bootstrap/scss/forms";
+@import "../node_modules/bootstrap/scss/buttons";
+@import "../node_modules/bootstrap/scss/transitions";
+@import "../node_modules/bootstrap/scss/dropdown";
+@import "../node_modules/bootstrap/scss/button-group";
+@import "../node_modules/bootstrap/scss/nav";
+@import "../node_modules/bootstrap/scss/navbar";
+@import "../node_modules/bootstrap/scss/card";
+@import "../node_modules/bootstrap/scss/badge";
+@import "../node_modules/bootstrap/scss/list-group";
+@import "../node_modules/bootstrap/scss/close";
+@import "../node_modules/bootstrap/scss/helpers";
+@import "../node_modules/bootstrap/scss/utilities/api";
+
+// Theme mixins
+@import "scss/2-mixins/button";
+
+// Theme components
+@import "scss/3-components/avatar";
+@import "scss/3-components/buttons";
+@import "scss/3-components/card";
+@import "scss/3-components/chart";
+@import "scss/3-components/content";
+@import "scss/3-components/dropdown";
+@import "scss/3-components/feather";
+@import "scss/3-components/footer";
+@import "scss/3-components/hamburger";
+@import "scss/3-components/list-group";
+@import "scss/3-components/main";
+@import "scss/3-components/navbar";
+@import "scss/3-components/reboot";
+@import "scss/3-components/sidebar";
+@import "scss/3-components/sizing";
+@import "scss/3-components/stat";
+@import "scss/3-components/tables";
+@import "scss/3-components/type";
+@import "scss/3-components/wrapper";
+
+// Theme utilities
+@import "scss/4-utilities/cursors";
+
+// 3rd party plugins
+@import "../node_modules/jsvectormap/dist/css/jsvectormap";
+@import "../node_modules/simplebar/dist/simplebar";
+@import "../node_modules/flatpickr/dist/flatpickr";
+
+// 3rd party plugin styles
+@import "scss/5-vendor/flatpickr";
+@import "scss/5-vendor/simplebar";
