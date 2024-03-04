@@ -87,6 +87,65 @@ export class AppComponent {
     '-' +
     this.date.getUTCDate();
   gradient: any;
+
+  lastProjects = [
+    {
+      name: 'Project Apollo',
+      startDate: '01/01/2023',
+      endDate: '31/06/2023',
+      status: 'Done',
+      assignee: 'Vanessa Tucker',
+    },
+    {
+      name: 'Project Fireball	',
+      startDate: '01/01/2023',
+      endDate: '31/06/2023',
+      status: 'Cancelled',
+      assignee: '	William Harris',
+    },
+    {
+      name: 'Project Hades',
+      startDate: '01/01/2023',
+      endDate: '31/06/2023',
+      status: 'Done',
+      assignee: 'Sharon Lessman',
+    },
+    {
+      name: 'Project Nitro',
+      startDate: '01/01/2023',
+      endDate: '31/06/2023',
+      status: 'In progress',
+      assignee: 'Vanessa Tucker',
+    },
+    {
+      name: 'Project Phoenix',
+      startDate: '01/01/2023',
+      endDate: '31/06/2023',
+      status: 'Done',
+      assignee: 'William Harris',
+    },
+    {
+      name: 'Project X',
+      startDate: '01/01/2023',
+      endDate: '31/06/2023',
+      status: 'Done',
+      assignee: 'Sharon Lessman',
+    },
+    {
+      name: 'Project Romeo',
+      startDate: '01/01/2023',
+      endDate: '31/06/2023',
+      status: 'Done',
+      assignee: 'Christina Mason',
+    },
+    {
+      name: 'Project Wombat',
+      startDate: '01/01/2023',
+      endDate: '31/06/2023',
+      status: 'In progress',
+      assignee: 'William Harris',
+    },
+  ];
   constructor() {}
 
   ngOnInit() {
