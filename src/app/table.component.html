@@ -350,21 +350,32 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="card-title">Bordered Table</h5>
-                <h6 class="card-subtitle text-muted">
-                  Add <code>.table-bordered</code> for borders on all sides of
-                  the table and cells.
-                </h6>
+                <div class="d-flex flex-row justify-content-between">
+                  <div class="d-flex flex-column">
+                    <h5 class="card-title">Bordered Table</h5>
+
+                    <h6 class="card-subtitle text-muted">
+                      Add <code>.table-bordered</code> for borders on all sides
+                      of the table and cells.
+                    </h6>
+                  </div>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-lg"
+                    (click)="addPersonItem(addForm)"
+                  >
+                    Add Item
+                  </button>
+                </div>
               </div>
 
-              <!-- Modal -->
+              <!-- Modal Delete -->
               <div
                 class="modal fade"
                 id="myModal"
                 tabindex="-1"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden=""
-                data-bs-backdrop="static"
               >
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
@@ -402,6 +413,102 @@
                   </div>
                 </div>
               </div>
+              <!-- Modal Add Item -->
+              <!-- Modal trigger button -->
+
+              <!-- Modal Body -->
+              <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+              <div
+                class="modal fade"
+                id="addModal"
+                tabindex="-1"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                role="dialog"
+                aria-labelledby="addItem"
+                aria-hidden="true"
+              >
+                <div
+                  class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                  role="document"
+                >
+                  <form
+                    #addForm="ngForm"
+                    (ngSubmit)="addPerson(addForm)"
+                    novalidate
+                  >
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="addItem">Person Details</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row g-3">
+                          <div class="col-12">
+                            <!-- <h1>{{ addForm.value.name }}</h1> -->
+                            <label for="name" class="form-label">Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="name"
+                              name="name"
+                              ngModel
+                              required
+                            />
+                          </div>
+                          <div class="col-12">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="phone"
+                              name="phone"
+                              ngModel
+                              required
+                            />
+                          </div>
+                          <div class="col-12">
+                            <label for="dob" class="form-label"
+                              >Date of birth</label
+                            >
+                            <input
+                              type="date"
+                              class="form-control"
+                              id="dob"
+                              name="dob"
+                              ngModel
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                          <ng-container *ngIf="isEditMode; else elseTemplate">
+                            {{ "Edit" }}
+                          </ng-container>
+                          <ng-template #elseTemplate>
+                            {{ "Add" }}
+                          </ng-template>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -419,7 +526,11 @@
                     <td>{{ person.phone }}</td>
                     <td class="d-none d-md-table-cell">{{ person.dob }}</td>
                     <td class="table-action">
-                      <a href="#"
+                      <a
+                        href="#"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addModal"
+                        (click)="editModelRow(person, addForm)"
                         ><svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"

@@ -6,24 +6,62 @@ import feather from 'feather-icons';
 import flatpickr from 'flatpickr';
 import 'jsvectormap/dist/maps/world.js';
 import * as bootstrap from 'bootstrap';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
+  addPersonItem(f: NgForm) {
+    this.isEditMode = false;
+    console.log('Add Xlixkewss');
+    f.reset();
+    this.addModal.show();
+  }
+  isEditMode = false;
+
+  editPersonObject = null;
   personDetails = [
-    { name: 'Vanessa Tucker', phone: '864-348-0485', dob: 'June 21, 1961' },
-    { name: 'William Harris', phone: '704-993-5435', dob: 'May 15, 1948' },
+    { name: 'Vanessa Tucker', phone: '864-348-0485', dob: '1961-04-12' },
+    { name: 'William Harris', phone: '704-993-5435', dob: '2001-11-29' },
     {
       name: 'Robin Schneiders',
       phone: '653-318-1259',
-      dob: 'September 14, 1965',
+      dob: '1965-02-17',
     },
-    { name: 'Sharon Lessman', phone: '762-123-897', dob: 'April 2, 1971' },
+    { name: 'Sharon Lessman', phone: '762-123-897', dob: '1999-09-01' },
   ];
-  myModal = null;
+  deleteModal = null;
+  addModal = null;
+
   selectedPerson;
+  addPerson(f: NgForm) {
+    if (f.valid && !this.isEditMode) {
+      console.log('adding');
+      const obj = {
+        name: f.value.name,
+        phone: f.value.phone,
+        dob: f.value.dob,
+      };
+      console.log(obj);
+      this.personDetails.push(obj);
+      this.addModal.hide();
+    } else if (f.valid && this.isEditMode) {
+      console.log('editing');
+
+      var index = this.personDetails.indexOf(this.editPersonObject);
+      this.personDetails[index] = {
+        name: f.value.name,
+        phone: f.value.phone,
+        dob: f.value.dob,
+      };
+      f.reset();
+      this.addModal.hide();
+    }
+    this.isEditMode = false;
+  }
+
   deletePerson() {
     console.log(this.personDetails.includes(this.selectedPerson));
 
@@ -32,10 +70,23 @@ export class TableComponent {
       1
     );
     // this.personDetails;
-    this.myModal.hide();
+    this.deleteModal.hide();
   }
   selectPerson(person) {
     this.selectedPerson = person;
+  }
+
+  editModelRow(person, f: NgForm) {
+    this.personDetails.indexOf(person);
+    const Oldperson = {
+      name: person.name,
+      phone: person.phone,
+      dob: person.dob,
+    };
+    console.log(Oldperson);
+    this.editPersonObject = person;
+    f.setValue(Oldperson);
+    this.isEditMode = true;
   }
   theme = {
     primary: '#3B7DDD',
@@ -61,9 +112,12 @@ export class TableComponent {
 
   ngAfterViewInit() {
     try {
-      console.log('Timeouyt');
-      this.myModal = new bootstrap.Modal(
+      this.deleteModal = new bootstrap.Modal(
         document.getElementById('myModal'),
+        {}
+      );
+      this.addModal = new bootstrap.Modal(
+        document.getElementById('addModal'),
         {}
       );
     } catch (e) {
