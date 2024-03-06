@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import SimpleBar from 'simplebar';
 import Chart from 'chart.js';
 import jsVectorMap from 'jsvectormap';
@@ -7,54 +7,92 @@ import flatpickr from 'flatpickr';
 import 'jsvectormap/dist/maps/world.js';
 import * as bootstrap from 'bootstrap';
 import { NgForm } from '@angular/forms';
+import moment from 'moment';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
+  @ViewChild('fileInput') fileInput: ElementRef;
+  newPath = null;
   addPersonItem(f: NgForm) {
     this.isEditMode = false;
-    console.log('Add Xlixkewss');
+    this.newPath = null;
     f.reset();
     this.addModal.show();
   }
   isEditMode = false;
-
+  testDate = '1961-04-12';
+  // 30-Nov-2023
   editPersonObject = null;
   personDetails = [
-    { name: 'Vanessa Tucker', phone: '864-348-0485', dob: '1961-04-12' },
-    { name: 'William Harris', phone: '704-993-5435', dob: '2001-11-29' },
+    {
+      name: 'Vanessa Tucker',
+      phone: '864-348-0485',
+      dob: '1961-04-12',
+      imgPath: '../assets/img/photos/1.jpg',
+    },
+    {
+      name: 'William Harris',
+      phone: '704-993-5435',
+      dob: '2001-11-29',
+      imgPath: '../assets/img/photos/2.jpg',
+    },
     {
       name: 'Robin Schneiders',
       phone: '653-318-1259',
       dob: '1965-02-17',
+      imgPath: '../assets/img/photos/4.jpg',
     },
-    { name: 'Sharon Lessman', phone: '762-123-897', dob: '1999-09-01' },
+    {
+      name: 'Sharon Lessman',
+      phone: '762-123-897',
+      dob: '1999-09-01',
+      imgPath: '../assets/img/photos/6.jpg',
+    },
   ];
   deleteModal = null;
   addModal = null;
 
   selectedPerson;
+  handleFileChange(event) {
+    // console.log(event.target.files[0]);
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = () => {
+      // console.log(reader.result);
+
+      this.newPath = reader.result;
+    };
+    reader.onerror = (error) => {
+      // console.log('Error: ', error);
+      return '';
+    };
+    reader.onloadend = () => {
+      console.log('DONE', reader.readyState); // readyState will be 2
+    };
+  }
+
   addPerson(f: NgForm) {
     if (f.valid && !this.isEditMode) {
-      console.log('adding');
+      console.log(this.newPath);
       const obj = {
         name: f.value.name,
         phone: f.value.phone,
         dob: f.value.dob,
+        imgPath: this.newPath,
       };
       console.log(obj);
       this.personDetails.push(obj);
       this.addModal.hide();
     } else if (f.valid && this.isEditMode) {
-      console.log('editing');
-
       var index = this.personDetails.indexOf(this.editPersonObject);
       this.personDetails[index] = {
         name: f.value.name,
         phone: f.value.phone,
         dob: f.value.dob,
+        imgPath: this.newPath,
       };
       f.reset();
       this.addModal.hide();
@@ -63,12 +101,9 @@ export class TableComponent {
   }
 
   deletePerson() {
-    console.log(this.personDetails.includes(this.selectedPerson));
+    let index = this.personDetails.indexOf(this.selectedPerson);
+    this.personDetails.splice(index, 1);
 
-    this.personDetails.splice(
-      this.personDetails.indexOf(this.selectedPerson),
-      1
-    );
     // this.personDetails;
     this.deleteModal.hide();
   }
@@ -77,14 +112,17 @@ export class TableComponent {
   }
 
   editModelRow(person, f: NgForm) {
-    this.personDetails.indexOf(person);
+    let index = this.personDetails.indexOf(person);
+
     const Oldperson = {
       name: person.name,
       phone: person.phone,
       dob: person.dob,
+      imgPath: '',
     };
-    console.log(Oldperson);
-    this.editPersonObject = person;
+
+    this.newPath = person.imgPath;
+    this.editPersonObject = this.personDetails[index];
     f.setValue(Oldperson);
     this.isEditMode = true;
   }
@@ -184,5 +222,9 @@ export class TableComponent {
 
     // Wait until page is loaded
     document.addEventListener('DOMContentLoaded', () => initialize());
+  }
+
+  getFormattedDate(date: string) {
+    return date ? moment(date).format('DD-MMM-YYYY') : '';
   }
 }

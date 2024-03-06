@@ -485,6 +485,29 @@
                               required
                             />
                           </div>
+
+                          <div class="col-12">
+                            <label for="imgPath" class="form-label"
+                              >Profile Image</label
+                            >
+                            <div class="d-flex flex-column">
+                              <img
+                                src="{{ newPath }}"
+                                alt=""
+                                class="rounded img-fluid mb-3"
+                              />
+                            </div>
+                            <input
+                              type="file"
+                              class="form-control"
+                              id="imgPath"
+                              name="imgPath"
+                              ngModel
+                              required
+                              #fileInput
+                              (change)="handleFileChange($event)"
+                            />
+                          </div>
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -497,7 +520,7 @@
                         </button>
                         <button type="submit" class="btn btn-primary">
                           <ng-container *ngIf="isEditMode; else elseTemplate">
-                            {{ "Edit" }}
+                            {{ "Update" }}
                           </ng-container>
                           <ng-template #elseTemplate>
                             {{ "Add" }}
@@ -512,7 +535,9 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th style="width: 40%">Name</th>
+                    <th style="width: 5%">No#</th>
+                    <th style="width: 5%">Profile</th>
+                    <th style="width: 30%">Name</th>
                     <th style="width: 25%">Phone Number</th>
                     <th class="d-none d-md-table-cell" style="width: 25%">
                       Date of Birth
@@ -520,11 +545,23 @@
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody *ngFor="let person of personDetails">
+                <tbody *ngFor="let person of personDetails; index as i">
                   <tr>
+                    <td>{{ i + 1 }}</td>
+
+                    <td>
+                      <img
+                        src="{{ person.imgPath }}"
+                        class="rounded-circle"
+                        alt="avatar1"
+                        style="height: 50px"
+                      />
+                    </td>
                     <td>{{ person.name }}</td>
                     <td>{{ person.phone }}</td>
-                    <td class="d-none d-md-table-cell">{{ person.dob }}</td>
+                    <td class="d-none d-md-table-cell">
+                      {{ getFormattedDate(person.dob) }}
+                    </td>
                     <td class="table-action">
                       <a
                         href="#"
