@@ -23,8 +23,9 @@
     "feather-icons": "4.29.0",
     "flatpickr": "4.6.13",
     "jsvectormap": "1.5.3",
-    "simplebar": "5.3.9",
+    "ng-multiselect-dropdown": "^1.0.0",
     "rxjs": "~7.8.0",
+    "simplebar": "5.3.9",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },

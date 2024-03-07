@@ -487,14 +487,48 @@
                           </div>
 
                           <div class="col-12">
+                            <select
+                              class="form-select"
+                              aria-label="Default select example"
+                              name="status"
+                              id="status"
+                              ngModel
+                            >
+                              <option selected>Select a status</option>
+                              <option value="Trainee">Trainee</option>
+                              <option value="Internee">Internee</option>
+                              <option value="Junior">Junior</option>
+                              <option value="Senior">Senior</option>
+                            </select>
+                          </div>
+
+                          <div class="col-12">
+                            <ng-multiselect-dropdown
+                              [placeholder]="'custom placeholder'"
+                              [settings]="projectsDropdownSettings"
+                              [data]="projectsDropDown"
+                              [(ngModel)]="selectedProjects"
+                              name="projects"
+                              (onSelect)="onItemSelect($event)"
+                              (onSelectAll)="onSelectAll($event)"
+                            >
+                            </ng-multiselect-dropdown>
+                          </div>
+
+                          <div class="col-12">
                             <label for="imgPath" class="form-label"
                               >Profile Image</label
                             >
                             <div class="d-flex flex-column">
                               <img
-                                src="{{ newPath }}"
+                                src="{{
+                                  newPath
+                                    ? newPath
+                                    : '../assets/img/avatars/0.jpg'
+                                }}"
                                 alt=""
                                 class="rounded img-fluid mb-3"
+                                style="height: 100px; width: 100px"
                               />
                             </div>
                             <input
@@ -503,7 +537,6 @@
                               id="imgPath"
                               name="imgPath"
                               ngModel
-                              required
                               #fileInput
                               (change)="handleFileChange($event)"
                             />
@@ -537,12 +570,16 @@
                   <tr>
                     <th style="width: 5%">No#</th>
                     <th style="width: 5%">Profile</th>
-                    <th style="width: 30%">Name</th>
-                    <th style="width: 25%">Phone Number</th>
-                    <th class="d-none d-md-table-cell" style="width: 25%">
+                    <th style="width: 20%">Name</th>
+                    <th style="width: 20%">Phone Number</th>
+
+                    <th class="d-none d-md-table-cell" style="width: 20%">
                       Date of Birth
                     </th>
-                    <th>Actions</th>
+                    <th style="width: 10%">Projects</th>
+
+                    <th style="width: 10%">Status</th>
+                    <th style="width: 10%">Actions</th>
                   </tr>
                 </thead>
                 <tbody *ngFor="let person of personDetails; index as i">
@@ -551,7 +588,11 @@
 
                     <td>
                       <img
-                        src="{{ person.imgPath }}"
+                        src="{{
+                          person.imgPath
+                            ? person.imgPath
+                            : '../assets/img/avatars/0.jpg'
+                        }}"
                         class="rounded-circle"
                         alt="avatar1"
                         style="height: 50px"
@@ -561,6 +602,27 @@
                     <td>{{ person.phone }}</td>
                     <td class="d-none d-md-table-cell">
                       {{ getFormattedDate(person.dob) }}
+                    </td>
+                    <td>
+                      <span
+                        *ngFor="let project of person.projects"
+                        class="badge bg-light text-dark"
+                      >
+                        {{ project.item_text }}</span
+                      >
+                    </td>
+                    <td>
+                      <span
+                        class="badge"
+                        [ngClass]="{
+                          'bg-primary': person.status == 'Senior',
+                          'bg-secondary': person.status == 'Junior',
+                          'bg-success': person.status == 'Trainee',
+                          'bg-info': person.status == 'Internee'
+                        }"
+                      >
+                        {{ person.status }}</span
+                      >
                     </td>
                     <td class="table-action">
                       <a
