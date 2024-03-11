@@ -1,0 +1,158 @@
+<form #addForm="ngForm" (ngSubmit)="addPerson(addForm)" novalidate>
+  <div class="">
+    <div class="">
+      <div class="row g-3">
+        <div class="col-6">
+          <!-- <h1>{{ addForm.value.name }}</h1> -->
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            ngModel
+            required
+          />
+        </div>
+        <div class="col-6">
+          <label for="phone" class="form-label">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            id="phone"
+            name="phone"
+            ngModel
+            required
+          />
+        </div>
+        <div class="col-6">
+          <label for="dob" class="form-label">Date of birth</label>
+          <input
+            type="date"
+            class="form-control"
+            id="dob"
+            name="dob"
+            ngModel
+            required
+          />
+        </div>
+        <div class="col-3">
+          <label for="dob" class="form-label">Gender</label>
+          <div class="d-flex flex-row jus">
+            <div class="form-check pe-2">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="gender"
+                id="flexRadioDisabled"
+                style="cursor: pointer"
+                value="male"
+                [(ngModel)]="gender"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioDisabled"
+                style="cursor: pointer"
+              >
+                Male
+              </label>
+            </div>
+            <div class="form-check pe-2">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="gender"
+                id="flexRadioCheckedDisabled"
+                style="cursor: pointer"
+                value="female"
+                [(ngModel)]="gender"
+              />
+              <label
+                class="form-check-label"
+                for="flexRadioCheckedDisabled"
+                style="cursor: pointer"
+              >
+                Female
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <label for="" class="form-label">Citizenship</label>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckChecked"
+              checked
+              ngModel
+              name="citizenship"
+            />
+            <label class="form-check-label" for="flexCheckChecked">
+              Verified Citizen
+            </label>
+          </div>
+        </div>
+        <div class="col-6">
+          <label for="status" class="form-label">Status</label>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            name="status"
+            id="status"
+            ngModel
+          >
+            <option selected>Select a status</option>
+            <option value="Trainee">Trainee</option>
+            <option value="Internee">Internee</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+          </select>
+        </div>
+
+        <div class="col-6">
+          <label for="projects" class="form-label">Projects</label>
+
+          <ng-multiselect-dropdown
+            [placeholder]="'custom placeholder'"
+            [settings]="projectsDropdownSettings"
+            [data]="projectsDropDown"
+            [(ngModel)]="selectedProjects"
+            name="projects"
+            (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+
+        <div class="col-12">
+          <label for="imgPath" class="form-label">Profile Image</label>
+          <div class="d-flex flex-column">
+            <img
+              src="{{ newPath ? newPath : '../assets/img/avatars/0.jpg' }}"
+              alt=""
+              class="rounded img-fluid mb-3"
+              style="height: 100px; width: 100px"
+            />
+            <div>
+              <input
+                type="file"
+                class="form-control"
+                id="imgPath"
+                name="imgPath"
+                ngModel
+                #fileInput
+                (change)="handleFileChange($event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -9,13 +9,14 @@ import * as bootstrap from 'bootstrap';
 import { NgForm } from '@angular/forms';
 import moment from 'moment';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import EmployeesService from './employees.service';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrl: './table.component.scss',
+  selector: 'app-employees',
+  templateUrl: './employees.component.html',
+  styleUrl: './employees.component.scss',
 })
-export class TableComponent {
-  @ViewChild('fileInput') fileInput: ElementRef;
+export class EmployeesComponent {
   // Multiselect items
   projectsDropDown = [];
   selectedProjects = [];
@@ -28,60 +29,17 @@ export class TableComponent {
   editPersonObject = null;
   selectedPerson;
   addPersonItem(f: NgForm) {
-    console.log(f.value);
-    console.log('I am reset');
-    this.isEditMode = false;
-    this.newPath = null;
-    f.reset();
-    this.addModal.show();
+    this.router.navigate(['add'], { relativeTo: this.route });
+
+    // console.log(f.value);
+    // console.log('I am reset');
+    // this.isEditMode = false;
+    // this.newPath = null;
+    // f.reset();
+    // this.addModal.show();
   }
 
-  personDetails = [
-    {
-      name: 'Vanessa Tucker',
-      phone: '864-348-0485',
-      dob: '1961-04-12',
-      projects: [
-        { item_id: 1, item_text: 'Adminkit' },
-        { item_id: 2, item_text: 'Bookrau' },
-      ],
-      status: 'Trainee',
-      imgPath: '../assets/img/photos/1.jpg',
-    },
-    {
-      name: 'William Harris',
-      phone: '704-993-5435',
-      dob: '2001-11-29',
-      projects: [
-        { item_id: 1, item_text: 'Adminkit' },
-        { item_id: 2, item_text: 'Bookrau' },
-      ],
-      status: 'Junior',
-      imgPath: '../assets/img/photos/2.jpg',
-    },
-    {
-      name: 'Robin Schneiders',
-      phone: '653-318-1259',
-      dob: '1965-02-17',
-      projects: [
-        { item_id: 1, item_text: 'Adminkit' },
-        { item_id: 2, item_text: 'Bookrau' },
-      ],
-      status: 'Internee',
-      imgPath: '../assets/img/photos/4.jpg',
-    },
-    {
-      name: 'Sharon Lessman',
-      phone: '762-123-897',
-      dob: '1999-09-01',
-      projects: [
-        { item_id: 1, item_text: 'Adminkit' },
-        { item_id: 2, item_text: 'Bookrau' },
-      ],
-      status: 'Senior',
-      imgPath: '../assets/img/photos/6.jpg',
-    },
-  ];
+  personDetails = [];
 
   handleFileChange(event) {
     // console.log(event.target.files[0]);
@@ -136,13 +94,16 @@ export class TableComponent {
 
   deletePerson() {
     let index = this.personDetails.indexOf(this.selectedPerson);
-    this.personDetails.splice(index, 1);
+    this.employeesService.deleteEmployee(index);
+    this.updateEmployeeDetails();
 
-    // this.personDetails;
     this.deleteModal.hide();
   }
   selectPerson(person) {
     this.selectedPerson = person;
+  }
+  updateEmployeeDetails() {
+    this.personDetails = this.employeesService.getEmployees();
   }
 
   editModelRow(person, f: NgForm) {
@@ -184,7 +145,11 @@ export class TableComponent {
     black: '#000',
   };
 
-  constructor() {}
+  constructor(
+    private employeesService: EmployeesService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngAfterViewInit() {
     try {
@@ -208,6 +173,7 @@ export class TableComponent {
     console.log(items);
   }
   ngOnInit() {
+    this.personDetails = this.employeesService.getEmployees();
     this.projectsDropDown = [
       { item_id: 1, item_text: 'Adminkit' },
       { item_id: 2, item_text: 'Bookrau' },
