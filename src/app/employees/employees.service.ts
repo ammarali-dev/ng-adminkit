@@ -63,4 +63,11 @@ export default class EmployeesService {
   addEmployee(employee) {
     this.employees.push(employee);
   }
+  nameFilter(filter) {
+    return this.employees
+      .filter((employee) =>
+        employee.name.toLowerCase().includes(name.toLowerCase())
+      )
+      .slice();
+  }
 }

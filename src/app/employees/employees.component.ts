@@ -1,4 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import SimpleBar from 'simplebar';
 import Chart from 'chart.js';
 import jsVectorMap from 'jsvectormap';
@@ -11,17 +17,31 @@ import moment from 'moment';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import EmployeesService from './employees.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss',
 })
 export class EmployeesComponent {
+  filterDropdownSettings: any;
+  filterDropDown: any;
+  selectedfilter: any;
+  onSearchChange(event) {
+    console.log(event.target.value);
+    console.log(this.nameSearch);
+    this.personDetails = this.employeesService.nameFilter(
+      event.target.value,
+      null
+    );
+  }
+  filters = { name: '', status: [] };
+  ngOnChanges() {}
   // Multiselect items
   projectsDropDown = [];
   selectedProjects = [];
   projectsDropdownSettings = {};
-
+  nameSearch: string = '';
   deleteModal = null;
   addModal = null;
   newPath = null;
@@ -167,10 +187,13 @@ export class EmployeesComponent {
   }
 
   onItemSelect(item: any) {
-    console.log(item);
+    this.filters.status.push(item.item_text);
   }
   onSelectAll(items: any) {
-    console.log(items);
+    // this.filters.status = items.values();
+    items.values().forEach((element) => {
+      this.onItemSelect(element);
+    });
   }
   ngOnInit() {
     this.personDetails = this.employeesService.getEmployees();
@@ -181,6 +204,12 @@ export class EmployeesComponent {
       { item_id: 4, item_text: 'Lifton' },
       { item_id: 5, item_text: 'Alpha' },
     ];
+    this.filterDropDown = [
+      { item_id: 1, item_text: 'Trainee' },
+      { item_id: 2, item_text: 'Junior' },
+      { item_id: 3, item_text: 'Internee' },
+      { item_id: 4, item_text: 'Senior' },
+    ];
 
     this.projectsDropdownSettings = {
       singleSelection: false,
@@ -190,6 +219,15 @@ export class EmployeesComponent {
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 5,
       allowSearchFilter: true,
+    };
+    this.filterDropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 4,
+      allowSearchFilter: false,
     };
 
     document.addEventListener('DOMContentLoaded', () => {

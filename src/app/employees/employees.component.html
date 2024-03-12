@@ -4,8 +4,8 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <div class="d-flex flex-row justify-content-between">
-            <div class="d-flex flex-column">
+          <div class="row">
+            <div class="d-flex flex-column col-5">
               <h5 class="card-title">Bordered Table</h5>
 
               <h6 class="card-subtitle text-muted">
@@ -13,13 +13,53 @@
                 table and cells.
               </h6>
             </div>
-            <button
-              type="button"
-              class="btn btn-primary btn-lg"
-              (click)="addPersonItem(addForm)"
-            >
-              Add Item
-            </button>
+            <div class="col-2">
+              <ng-multiselect-dropdown
+                [placeholder]="'Filter'"
+                [settings]="filterDropdownSettings"
+                [data]="filterDropDown"
+                [(ngModel)]="selectedfilter"
+                name="filters"
+                (onSelect)="onItemSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+              >
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="col-3 bg-light rounded rounded-pill shadow-sm">
+              <div class="input-group">
+                <input
+                  type="search"
+                  placeholder="What're you searching for?"
+                  aria-describedby="button-addon1"
+                  class="form-control border-0 bg-light"
+                  [(ngModel)]="nameSearch"
+                  (input)="onSearchChange($event)"
+                  #nameFilter
+                />
+                <div class="input-group-append">
+                  <button
+                    id="button-addon1"
+                    type="submit"
+                    class="btn btn-link text-primary"
+                  >
+                    <i
+                      class="align-middle search-icon"
+                      data-feather="search"
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-2 d-flex justify-content-end">
+              <button
+                type="button"
+                class="btn btn-primary btn-lg"
+                (click)="addPersonItem(addForm)"
+              >
+                Add Item
+              </button>
+            </div>
           </div>
         </div>
 
@@ -154,8 +194,6 @@
                         [data]="projectsDropDown"
                         [(ngModel)]="selectedProjects"
                         name="projects"
-                        (onSelect)="onItemSelect($event)"
-                        (onSelectAll)="onSelectAll($event)"
                       >
                       </ng-multiselect-dropdown>
                     </div>
@@ -271,7 +309,12 @@
                 >
               </td>
               <td>
-                <span class="badge bg-primary"> Verified </span>
+                <ng-container *ngIf="person.citizenship; else notVerified">
+                  <span class="badge bg-primary"> verified </span>
+                </ng-container>
+                <ng-template #notVerified>
+                  <span class="badge bg-danger"> unverified </span>
+                </ng-template>
               </td>
               <td class="table-action">
                 <a

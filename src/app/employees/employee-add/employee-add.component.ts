@@ -73,6 +73,7 @@ export class EmployeeAddComponent {
         projects: f.value.projects,
         imgPath: this.newPath,
         gender: this.gender,
+        citizenship: f.value.citizenship,
       };
       this.employeesService.addEmployee(employee);
 
