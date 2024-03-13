@@ -20,8 +20,10 @@
                 [data]="filterDropDown"
                 [(ngModel)]="selectedfilter"
                 name="filters"
-                (onSelect)="onItemSelect($event)"
-                (onSelectAll)="onSelectAll($event)"
+                (onSelect)="onSearchChange()"
+                (onSelectAll)="onSearchChange()"
+                (onDeSelect)="onSearchChange()"
+                (onDeSelectAll)="onSearchChange()"
               >
               </ng-multiselect-dropdown>
             </div>
@@ -33,7 +35,7 @@
                   aria-describedby="button-addon1"
                   class="form-control border-0 bg-light"
                   [(ngModel)]="nameSearch"
-                  (input)="onSearchChange($event)"
+                  (input)="onSearchChange()"
                   #nameFilter
                 />
                 <div class="input-group-append">
@@ -252,7 +254,7 @@
               <th style="width: 5%">No#</th>
               <th style="width: 5%">Profile</th>
               <th style="width: 10%">Name</th>
-              <th style="width: 10%">Gender</th>
+              <th class="d-none d-md-table-cell" style="width: 10%">Gender</th>
               <th style="width: 20%">Phone Number</th>
 
               <th class="d-none d-md-table-cell" style="width: 15%">
@@ -261,7 +263,7 @@
               <th style="width: 10%">Projects</th>
 
               <th style="width: 10%">Status</th>
-              <th style="width: 5%">Citizen</th>
+              <th class="d-none d-md-table-cell" style="width: 5%">Citizen</th>
               <th style="width: 10%">Actions</th>
             </tr>
           </thead>
@@ -282,7 +284,7 @@
                 />
               </td>
               <td>{{ person.name }}</td>
-              <td>{{ person.gender }}</td>
+              <td class="d-none d-md-table-cell">{{ person.gender }}</td>
               <td>{{ person.phone }}</td>
               <td class="d-none d-md-table-cell">
                 {{ getFormattedDate(person.dob) }}
@@ -308,7 +310,7 @@
                   {{ person.status }}</span
                 >
               </td>
-              <td>
+              <td class="d-none d-md-table-cell">
                 <ng-container *ngIf="person.citizenship; else notVerified">
                   <span class="badge bg-primary"> verified </span>
                 </ng-container>

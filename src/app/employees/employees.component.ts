@@ -27,13 +27,17 @@ export class EmployeesComponent {
   filterDropdownSettings: any;
   filterDropDown: any;
   selectedfilter: any;
-  onSearchChange(event) {
-    console.log(event.target.value);
-    console.log(this.nameSearch);
-    this.personDetails = this.employeesService.nameFilter(
-      event.target.value,
-      null
-    );
+
+  onSearchChange() {
+    this.filters = { name: '', status: [] };
+    try {
+      this.selectedfilter.forEach((item) => {
+        this.filters.status.push(item.item_text);
+      });
+    } catch (error) {}
+
+    this.filters.name = this.nameSearch.toString();
+    this.personDetails = this.employeesService.nameFilter(this.filters);
   }
   filters = { name: '', status: [] };
   ngOnChanges() {}
@@ -186,15 +190,6 @@ export class EmployeesComponent {
     }
   }
 
-  onItemSelect(item: any) {
-    this.filters.status.push(item.item_text);
-  }
-  onSelectAll(items: any) {
-    // this.filters.status = items.values();
-    items.values().forEach((element) => {
-      this.onItemSelect(element);
-    });
-  }
   ngOnInit() {
     this.personDetails = this.employeesService.getEmployees();
     this.projectsDropDown = [

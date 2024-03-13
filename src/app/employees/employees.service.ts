@@ -63,11 +63,19 @@ export default class EmployeesService {
   addEmployee(employee) {
     this.employees.push(employee);
   }
-  nameFilter(filter) {
-    return this.employees
+  nameFilter(obj) {
+    var filteredEmployees = this.employees
       .filter((employee) =>
-        employee.name.toLowerCase().includes(name.toLowerCase())
+        employee.name.toLowerCase().includes(obj.name.toLowerCase())
       )
       .slice();
+    if (obj.status.length > 0)
+      filteredEmployees = filteredEmployees
+        .filter((employee) => {
+          return obj.status.includes(employee.status);
+        })
+        .slice();
+
+    return filteredEmployees;
   }
 }
